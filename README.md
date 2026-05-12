@@ -1,4 +1,4 @@
-# @midvash/bible-data
+# @midvash.com/bible-data
 
 TypeScript / JavaScript SDK for the [**bible-data**](https://github.com/midvash/bible-data) dataset.
 
@@ -11,7 +11,7 @@ Fetch verses, chapters, and books from **33 public-domain Bible versions across 
 ## Install
 
 ```bash
-npm install @midvash/bible-data
+npm install @midvash.com/bible-data
 ```
 
 Requires Node 18+ (uses `fetch`). Works in browsers and edge runtimes too.
@@ -19,7 +19,7 @@ Requires Node 18+ (uses `fetch`). Works in browsers and edge runtimes too.
 ## Usage
 
 ```ts
-import { getVerse, getChapter, getBook, getBible } from '@midvash/bible-data';
+import { getVerse, getChapter, getBook, getBible } from '@midvash.com/bible-data';
 
 // John 3:16 in the KJV
 const verse = await getVerse('kjv', 'John', 3, 16);
@@ -64,7 +64,7 @@ Returns metadata: license, year, stats, source URL, attribution.
 Override the data host or supply a custom `fetch` (e.g. for caching, retries, or testing).
 
 ```ts
-import { configure } from '@midvash/bible-data';
+import { configure } from '@midvash.com/bible-data';
 
 // Pin to a specific release for reproducibility
 configure({

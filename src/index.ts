@@ -1,11 +1,11 @@
 /**
- * @midvash/bible-data — TypeScript SDK for the bible-data dataset.
+ * @midvash.com/bible-data — TypeScript SDK for the bible-data dataset.
  *
  * Fetches verses, chapters, books, and full Bibles from 33 public-domain
  * Bible versions across 23 languages, hosted at github.com/midvash/bible-data.
  *
  * @example
- *   import { getVerse } from '@midvash/bible-data';
+ *   import { getVerse } from '@midvash.com/bible-data';
  *   const verse = await getVerse('kjv', 'John', 3, 16);
  *   console.log(verse.text); // "For God so loved the world..."
  */
