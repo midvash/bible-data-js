@@ -1,0 +1,53 @@
+{
+  "name": "@midvash/bible-data",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for bible-data — fetch verses, chapters, and books from 33 public-domain Bible versions in 23 languages.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "bible",
+    "scripture",
+    "kjv",
+    "asv",
+    "vulgate",
+    "osis",
+    "public-domain",
+    "multilingual"
+  ],
+  "author": "Midvash <contact@midvash.com> (https://midvash.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/midvash/bible-data-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/midvash/bible-data-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/midvash/bible-data-js/issues"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
