@@ -1,5 +1,5 @@
 {
-  "name": "@midvash.com/bible-data",
+  "name": "@midvash/bible-data",
   "version": "0.1.0",
   "description": "TypeScript SDK for bible-data — fetch verses, chapters, and books from 33 public-domain Bible versions in 23 languages.",
   "type": "module",
