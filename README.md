@@ -1,5 +1,7 @@
 # @midvash/bible-data
 
+> 🌐 **English** · [Português (BR)](./README.pt-BR.md) · [Español](./README.es.md)
+
 TypeScript / JavaScript SDK for the [**bible-data**](https://github.com/midvash/bible-data) dataset.
 
 Fetch verses, chapters, and books from **33 public-domain Bible versions across 22 languages** — KJV, ASV, WEB, Almeida 1819, Luther 1912, Segond 1910, Vulgate, Westminster Leningrad Codex, Textus Receptus, and more.
