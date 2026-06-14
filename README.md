@@ -2,7 +2,7 @@
 
 TypeScript / JavaScript SDK for the [**bible-data**](https://github.com/midvash/bible-data) dataset.
 
-Fetch verses, chapters, and books from **33 public-domain Bible versions across 23 languages** — KJV, ASV, WEB, Almeida 1819, Luther 1912, Segond 1910, Vulgate, Westminster Leningrad Codex, Textus Receptus, and more.
+Fetch verses, chapters, and books from **33 public-domain Bible versions across 22 languages** — KJV, ASV, WEB, Almeida 1819, Luther 1912, Segond 1910, Vulgate, Westminster Leningrad Codex, Textus Receptus, and more.
 
 > Powered by [midvash.com](https://midvash.com) — free Bible reader and study platform.
 
@@ -152,3 +152,4 @@ Part of [**Midvash**](https://midvash.com) — a free Bible reading & study plat
 | 📦 **Open data** | [`bible-data`](https://github.com/midvash/bible-data) · [`bible-data-js`](https://github.com/midvash/bible-data-js) · [`bible-cross-references`](https://github.com/midvash/bible-cross-references) |
 
 <sub>Free & open, built by [Midvash](https://midvash.com) · [midvash.com](https://midvash.com) · [midvash.app](https://midvash.app)</sub>
+
