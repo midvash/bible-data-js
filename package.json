@@ -1,6 +1,6 @@
 {
   "name": "@midvash/bible-data",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "TypeScript SDK for bible-data — fetch verses, chapters, and books from 32 open Bible versions (public domain or free license) in 21 languages.",
   "type": "module",
   "main": "./dist/index.js",
