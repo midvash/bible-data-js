@@ -4,7 +4,7 @@
 
 SDK em TypeScript / JavaScript para o dataset [**bible-data**](https://github.com/midvash/bible-data).
 
-Busque versículos, capítulos e livros de **33 versões bíblicas de domínio público em 22 idiomas** — KJV, ASV, WEB, Almeida 1819, Luther 1912, Segond 1910, Vulgate, Westminster Leningrad Codex, Textus Receptus e mais.
+Busque versículos, capítulos e livros de **32 versões bíblicas abertas (domínio público ou licença livre) em 21 idiomas** — KJV, ASV, WEB, Bíblia Livre, Luther 1912, Segond 1910, Vulgate, Westminster Leningrad Codex, Textus Receptus e mais.
 
 > Desenvolvido por [midvash.com](https://midvash.com) — leitor e plataforma de estudo bíblico gratuitos.
 
@@ -59,7 +59,7 @@ Retorna a Bíblia inteira como um único objeto grande. Use com moderação — 
 
 ### `getVersionMetadata(slug)`
 
-Retorna metadados: licença, ano, estatísticas, URL de origem, atribuição.
+Retorna metadados: licença, ano, estatísticas, URL de origem, atribuição. Uma requisição por versão, com cache; a pasta da versão vem do `VERSIONS_BY_LANGUAGE`, então `getVerse`/`getChapter`/`getBook`/`getBible` fazem uma requisição cada. Slug desconhecido dá erro sem nenhuma requisição.
 
 ### `configure({ baseUrl, fetch })`
 
@@ -78,7 +78,7 @@ configure({
 
 - `ALL_VERSION_SLUGS` — todos os slugs de versão disponíveis
 - `VERSIONS_BY_LANGUAGE` — agrupados por código de idioma
-- `KNOWN_LANGUAGES` — `['ar', 'cs', 'da', ...]`
+- `KNOWN_LANGUAGES` — `['ar', 'cs', 'de', ...]`
 - `BOOK_IDS` — código de livro OSIS → id numérico de 1-66
 
 ## Identificadores de livros
@@ -113,7 +113,6 @@ Titus Phlm  Heb   Jas   1Pet  2Pet  1John 2John
 | cs   | `bkr` |
 | hu   | `kar` |
 | ro   | `vdc` |
-| da   | `dansk1931` |
 | sv   | `sv1917` |
 | nb   | `nb1930` |
 | eo   | `lsb` |
@@ -130,7 +129,7 @@ Detalhes completos de licenciamento: [bible-data/SOURCES.md](https://github.com/
 
 MIT — veja [LICENSE](./LICENSE).
 
-Os **dados de texto** bíblico buscados por esta biblioteca seguem a licença de livre redistribuição de cada versão (declarada no seu `metadata.json`). Todos os textos do dataset bible-data são de domínio público ou estão sob licença de livre redistribuição.
+Os **dados de texto** bíblico buscados por esta biblioteca seguem a licença de livre redistribuição de cada versão (declarada no seu `metadata.json`). A maioria é de domínio público; versões `cc-by` (ex.: `almeida-livre`) exigem o crédito do campo `attribution`. Detalhes: [bible-data/DATA-LICENSE.md](https://github.com/midvash/bible-data/blob/main/DATA-LICENSE.md).
 
 ## Relacionados
 
@@ -145,12 +144,12 @@ Faz parte do [**Midvash**](https://midvash.com) — uma plataforma gratuita de l
 | | |
 |---|---|
 | 📖 **Leitor (web)** | [midvash.com](https://midvash.com) — 9 idiomas |
-| 📱 **App iOS** | [midvash.app/ios](https://midvash.app/ios) |
+| 📱 **App iOS** | [midvash.com/ios](https://midvash.com/ios) |
 | 🔌 **API** | [api.midvash.com](https://api.midvash.com) · [`bible-api`](https://github.com/midvash/bible-api) |
 | 🤖 **Servidor MCP** | [mcp.midvash.com](https://mcp.midvash.com) · [`bible-mcp`](https://github.com/midvash/bible-mcp) |
-| 🧩 **Plugin WordPress** | [midvash.app/wordpress-plugin](https://midvash.app/wordpress-plugin) · [`bible-wordpress-plugin`](https://github.com/midvash/bible-wordpress-plugin) |
-| 🧩 **Plugin EmDash** | [midvash.app/emdash-plugin](https://midvash.app/emdash-plugin) · [`emdash-plugin-bible`](https://github.com/midvash/emdash-plugin-bible) |
-| 🌐 **Extensão Chrome** | [midvash.app/chrome-extension](https://midvash.app/chrome-extension) · [`bible-chrome-extension`](https://github.com/midvash/bible-chrome-extension) |
+| 🧩 **Plugin WordPress** | [midvash.com/wordpress-plugin](https://midvash.com/wordpress-plugin) · [`bible-wordpress-plugin`](https://github.com/midvash/bible-wordpress-plugin) |
+| 🧩 **Plugin EmDash** | [midvash.com/emdash-plugin](https://midvash.com/emdash-plugin) · [`bible-emdash-plugin`](https://github.com/midvash/bible-emdash-plugin) |
+| 🌐 **Extensão Chrome** | [midvash.com/chrome-extension](https://midvash.com/chrome-extension) · [`bible-chrome-extension`](https://github.com/midvash/bible-chrome-extension) |
 | 📦 **Dados abertos** | [`bible-data`](https://github.com/midvash/bible-data) · [`bible-data-js`](https://github.com/midvash/bible-data-js) · [`bible-cross-references`](https://github.com/midvash/bible-cross-references) |
 
-<sub>Gratuito e aberto, feito pela [Midvash](https://midvash.com) · [midvash.com](https://midvash.com) · [midvash.app](https://midvash.app)</sub>
+<sub>Gratuito e aberto, feito pela [Midvash](https://midvash.com)</sub>

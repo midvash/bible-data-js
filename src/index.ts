@@ -1,8 +1,9 @@
 /**
  * @midvash/bible-data — TypeScript SDK for the bible-data dataset.
  *
- * Fetches verses, chapters, books, and full Bibles from 33 public-domain
- * Bible versions across 23 languages, hosted at github.com/midvash/bible-data.
+ * Fetches verses, chapters, books, and full Bibles from 32 Bible versions
+ * (public domain or free license) across 21 languages, hosted at
+ * github.com/midvash/bible-data.
  *
  * @example
  *   import { getVerse } from '@midvash/bible-data';
@@ -55,7 +56,11 @@ export interface VersionMetadata {
   licenseNote: string;
   attribution: string | null;
   sourceUrl: string | null;
+  /** `false` when the public-domain claim is not confirmed yet (see bible-data SOURCES.md). */
+  sourceVerified?: boolean;
   stats: { books: number; chapters: number; verses: number };
+  /** Chapters the source text does not have, by OSIS book (e.g. `{ John: [11] }` in `vdc`). */
+  missingChapters?: Record<string, number[]>;
   readerUrl: string;
   schema: string;
 }
@@ -75,12 +80,13 @@ let _options: Required<ClientOptions> = {
   fetch: globalThis.fetch.bind(globalThis),
 };
 
-/** Configure global client options (base URL, custom fetch). */
+/** Configure global client options (base URL, custom fetch). Clears the metadata cache. */
 export function configure(options: ClientOptions): void {
   _options = {
     baseUrl: options.baseUrl ?? _options.baseUrl,
     fetch: options.fetch ?? _options.fetch,
   };
+  metadataCache.clear();
 }
 
 async function fetchJson<T>(path: string): Promise<T> {
@@ -93,26 +99,34 @@ async function fetchJson<T>(path: string): Promise<T> {
 }
 
 /**
- * Look up the directory for a version slug — `versions/<lang>/<slug>/`.
- * Needs the version's language; resolves it from the version registry on miss.
+ * Directory language for a version slug — `versions/<lang>/<slug>/`.
+ * Comes from `VERSIONS_BY_LANGUAGE`, so no request is needed.
  */
-async function resolveLang(slug: string): Promise<string> {
-  const meta = await getVersionMetadata(slug);
-  return meta.language;
+function resolveLang(slug: string): KnownLanguage {
+  const lang = LANGUAGE_BY_SLUG.get(slug);
+  if (!lang) {
+    throw new Error(
+      `Unknown version slug: ${slug}. Available: ${ALL_VERSION_SLUGS.join(', ')}`
+    );
+  }
+  return lang;
 }
 
-/** Returns metadata for a single version (license, stats, year, etc). */
-export async function getVersionMetadata(slug: string): Promise<VersionMetadata> {
-  for (const lang of KNOWN_LANGUAGES) {
-    try {
-      return await fetchJson<VersionMetadata>(
-        `/versions/${lang}/${slug}/metadata.json`
-      );
-    } catch {
-      // try next lang
-    }
+// One request per slug for the life of the client; failures are not cached.
+const metadataCache = new Map<string, Promise<VersionMetadata>>();
+
+/** Returns metadata for a single version (license, stats, year, etc). Cached per slug. */
+export function getVersionMetadata(slug: string): Promise<VersionMetadata> {
+  let pending = metadataCache.get(slug);
+  if (!pending) {
+    pending = (async () =>
+      fetchJson<VersionMetadata>(`/versions/${resolveLang(slug)}/${slug}/metadata.json`))();
+    metadataCache.set(slug, pending);
+    pending.catch(() => {
+      if (metadataCache.get(slug) === pending) metadataCache.delete(slug);
+    });
   }
-  throw new Error(`Unknown version slug: ${slug}`);
+  return pending;
 }
 
 /**
@@ -120,7 +134,7 @@ export async function getVersionMetadata(slug: string): Promise<VersionMetadata>
  * Book code uses OSIS — see https://wiki.crosswire.org/OSIS_Book_Abbreviations
  */
 export async function getBook(slug: string, osisBook: string): Promise<Book> {
-  const lang = await resolveLang(slug);
+  const lang = resolveLang(slug);
   const file = await fetchJson<Book & { version: string }>(
     `/versions/${lang}/${slug}/books/${osisBook}.json`
   );
@@ -158,13 +172,13 @@ export async function getVerse(
 
 /** Fetches the entire Bible for a version as a single object (large — ~5-10MB). */
 export async function getBible(slug: string): Promise<BibleFile> {
-  const lang = await resolveLang(slug);
+  const lang = resolveLang(slug);
   return fetchJson<BibleFile>(`/versions/${lang}/${slug}/${slug}.json`);
 }
 
 /** Languages with at least one version in bible-data. */
 export const KNOWN_LANGUAGES = [
-  'ar', 'cs', 'da', 'de', 'en', 'eo', 'fr', 'gr', 'he',
+  'ar', 'cs', 'de', 'en', 'eo', 'fr', 'gr', 'he',
   'hu', 'it', 'la', 'nb', 'nl', 'pl', 'pt', 'ro', 'ru',
   'sv', 'uk', 'vi', 'zh',
 ] as const;
@@ -175,7 +189,6 @@ export type KnownLanguage = (typeof KNOWN_LANGUAGES)[number];
 export const VERSIONS_BY_LANGUAGE: Record<KnownLanguage, readonly string[]> = {
   ar: ['svd'],
   cs: ['bkr'],
-  da: ['dansk1931'],
   de: ['luth1912', 'elb1905'],
   en: ['kjv', 'asv', 'web', 'geneva1599', 'dra'],
   eo: ['lsb'],
@@ -201,6 +214,12 @@ export const VERSIONS_BY_LANGUAGE: Record<KnownLanguage, readonly string[]> = {
 export const ALL_VERSION_SLUGS: readonly string[] = Object.values(
   VERSIONS_BY_LANGUAGE
 ).flat();
+
+const LANGUAGE_BY_SLUG: ReadonlyMap<string, KnownLanguage> = new Map(
+  (Object.entries(VERSIONS_BY_LANGUAGE) as [KnownLanguage, readonly string[]][]).flatMap(
+    ([lang, slugs]) => slugs.map((slug) => [slug, lang] as const)
+  )
+);
 
 /** OSIS code → 1-66 book id, useful for cross-referencing with raw SQLite data. */
 export const BOOK_IDS: Record<string, number> = {
